@@ -25,18 +25,19 @@ public class Arquivo {
                 String[] linhaSplit;
                 for(int i = 0; i < tamanho;i++)
                 {
+                    //lendo o arquivo e adicionando na array de nomes
                     linha = lerArq.readLine();
                     linhaSplit = linha.split(";");
                     test.insertNode(linhaSplit[1]);
                 }
-                while (linha != null) {
-                    linhaSplit = linha.split(";");
-
-                    // Student aluno = new Student(Long.parseLong(linhaSplit[0]), linhaSplit[1], Float.parseFloat(linhaSplit[2]));
-
-                    // alunos.add(aluno);
-
-                    linha = lerArq.readLine();
+                for (int l = 0; l < tamanho; l++)
+                {
+                        linha = lerArq.readLine();
+                        linhaSplit = linha.split(";");
+                    for (int c = 0; c < tamanho; c++)
+                    {
+                        test.insert(l,c, Float.parseFloat(linhaSplit[c].replace(',', '.')));
+                    }
                 }
 
                 arq.close();
