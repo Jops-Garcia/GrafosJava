@@ -6,12 +6,11 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-// import java.util.ArrayList;
 
 public class Arquivo {
     public static Grafos Read(String Caminho){ //ArrayList<Student> alunos) {
+        //criando grafo e adicionando os dados
         Grafos test = new Grafos(0);
         try {
             FileReader arq = new FileReader(Caminho);
@@ -34,31 +33,21 @@ public class Arquivo {
                 {
                         linha = lerArq.readLine();
                         linhaSplit = linha.split(";");
-                    for (int c = 0; c < tamanho; c++)
-                    {
-                        test.insert(l,c, Float.parseFloat(linhaSplit[c].replace(',', '.')));
-                    }
+                        //adicionando dados na matriz
+                        for (int c = 0; c < tamanho; c++)
+                        {
+                            //adicionando dados na matriz, substituindo a , por .
+                            test.insert(l,c, Float.parseFloat(linhaSplit[c].replace(',', '.')));
+                        }
                 }
 
                 arq.close();
             } catch (IOException ex) {
-                System.out.println("Erro: Não leu o arquivo"); //adicionando comentario
+                System.out.println("Erro: Não leu o arquivo"); //caso de erro
             }
         } catch (FileNotFoundException ex) {
             System.out.println("Erro: Arquivo não encontrado");
         }
         return test;
-    }
-    public static boolean Write(String caminho, String texto) {
-        try {
-            //remover da pasta após o uso para testes pois irá append em no mesmo arquivo
-            FileWriter arq = new FileWriter(caminho,true);
-            arq.write(texto + "\n");
-            arq.close();
-            return true;
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
     }
 }
