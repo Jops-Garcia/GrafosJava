@@ -29,7 +29,7 @@ public void vizinhos(int cidade){
 
     System.out.println("Code: "+(cidade+1)+" Node: "+this.nodes.get(cidade));
     System.out.println("\nVizinhos:");
-      for (int c = 1; c < this.matriz[cidade].length; c++)
+      for (int c = 0; c < this.matriz[cidade].length; c++)
       {
         if (this.matriz[cidade][c]!=0.0){
             System.out.println("Code: "+(c+1)+" Node: "+this.nodes.get(c)+" Paths: "+this.matriz[cidade][c]);
@@ -38,8 +38,22 @@ public void vizinhos(int cidade){
       System.out.println();
 }
 
-public void caminhos(){
+public void caminhos(int cidade,ArrayList<String> cidades){
+    //removendo a atual
+    if (cidades.size()<=0){
+        return;
+    }
+    cidades.remove(nodes.get(cidade));
 
+    for (int c = 0; c < matriz[cidade].length; c++)
+    {
+    if (this.matriz[cidade][c]!=0.0){
+        if (cidades.contains(nodes.get(c))){
+            System.out.println("Code: "+(c+1)+" Node: "+nodes.get(c));
+            caminhos(c,cidades);
+        }
+    }
+    }
 }
 
 public void printMatriz(){

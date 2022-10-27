@@ -2,7 +2,7 @@
  *
  * @author João Pedro Garcia & Rodrigo Couto Rodrigues
  */
-// import java.util.ArrayList;
+import java.util.ArrayList;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -56,15 +56,28 @@ public class App {
                 test.printNodes();
                 System.out.println();
                 System.out.print("Digite o nó desejado: ");
-                codigo=aux.nextInt(); //lixo
-                aux.nextLine();
+                codigo=aux.nextInt(); 
+                aux.nextLine();//lixo
                 clear();
                 
                 test.vizinhos(codigo-1);
                 break;
 
             case 3://Obter todos os caminhos
+                clear();
+                test.printNodes();
+                System.out.println();
+                System.out.print("Digite o nó desejado: ");
+                codigo=aux.nextInt(); 
+                aux.nextLine();//lixo
+                clear();
+
+                System.out.println("Code: "+(codigo)+" Node: "+test.nodes.get(codigo-1));
+                System.out.println("\nCaminhos:");
                 
+                ArrayList<String> aux1=new ArrayList<String>(test.nodes); 
+                test.caminhos(codigo-1,aux1);
+                System.out.println();
                 break;
 
              //deixando comentarios para uso no futuro
