@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Arquivo {
     public static Grafos Read(String Caminho){ //ArrayList<Student> alunos) {
-        //criando grafo e adicionando os dados
+        //Criando grafo e adicionando os dados
         Grafos test = new Grafos(0);
         try {
             FileReader arq = new FileReader(Caminho);
@@ -24,7 +24,7 @@ public class Arquivo {
                 String[] linhaSplit;
                 for(int i = 0; i < tamanho;i++)
                 {
-                    //lendo o arquivo e adicionando na array de nomes
+                    //Lendo o arquivo e adicionando na array de nomes
                     linha = lerArq.readLine();
                     linhaSplit = linha.split(";");
                     test.insertNode(linhaSplit[1]);
@@ -33,17 +33,17 @@ public class Arquivo {
                 {
                         linha = lerArq.readLine();
                         linhaSplit = linha.split(";");
-                        //adicionando dados na matriz
+                        //Adicionando dados na matriz
                         for (int c = 0; c < tamanho; c++)
                         {
-                            //adicionando dados na matriz, substituindo a , por .
+                            //Adicionando dados na matriz, substituindo a , por .
                             test.insert(l,c, Float.parseFloat(linhaSplit[c].replace(',', '.')));
                         }
                 }
 
                 arq.close();
             } catch (IOException ex) {
-                System.out.println("Erro: Não leu o arquivo"); //caso de erro
+                System.out.println("Erro: Não leu o arquivo"); //Caso de erro
             }
         } catch (FileNotFoundException ex) {
             System.out.println("Erro: Arquivo não encontrado");
