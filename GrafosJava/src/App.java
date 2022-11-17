@@ -26,21 +26,21 @@ public class App {
         int codigo = 0;
 
         //MENU
-        while (opcao!=4) {            
+        while (opcao!=5) {            
             clear();
             System.out.print("##---------------------Menu-------------------##\n\n");
             System.out.print("|------------------------------------------------|\n");
             System.out.print("| Opção 1 - Exibir matriz e nós                  |\n");
             System.out.print("| Opção 2 - Obter Nós vizinhos                   |\n");
             System.out.print("| Opção 3 - Obter todos os caminhos              |\n"); 
-            //System.out.print("| Opção 4 -                                      |\n"); //Deixando comentados para uso no futuro
-            System.out.print("| Opção 4 - Sair                                 |\n");
+            System.out.print("| Opção 4 - Encontrar caminho minimo (dijkstra)  |\n"); //Deixando comentados para uso no futuro
+            System.out.print("| Opção 5 - Sair                                 |\n");
             System.out.print("|------------------------------------------------|\n");
             System.out.print("Digite uma opção: ");
 
             opcao = menu.nextInt();
 
-            if (opcao == 4) {
+            if (opcao == 5) {
                 //Fechando os scanners
                 menu.close();
                 aux.close();
@@ -86,17 +86,19 @@ public class App {
                 break;
 
              //Deixando comentarios para uso no futuro
-            // Case 4:
-                
-            //     break;
-            case 4:
+             case 4:
+                test.dijkstra_GetMinDistances(0);
+
+
+                break;
+            case 5:
                 System.out.print("\nAté logo\n\n");
                 break;
             default:
                 System.out.print("\nOpção Inválida!");
                 break;
             }
-            if(opcao!=4){
+            if(opcao!=5){
             System.out.print("\nPressione Enter para continuar...");
             aux.nextLine();
             }
