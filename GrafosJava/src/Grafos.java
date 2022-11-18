@@ -87,69 +87,68 @@ public class Grafos {
         }
     }
 
-    //get the vertex with minimum distance which is not included in SPT
-    public int getMinimumVertex(boolean [] mst, float [] key){
+    //PEGA O VERTICE COM A DISTANCIA MINIMA QUE NAO ESTA INCLUSA NO SPT
+    public int caminhoMinVertice(boolean [] mst, float [] key){
+        //pega o maior inteiro possivel (mesmo sendo float o inteiro já é um numero bem grande)
         float minKey = Integer.MAX_VALUE;
-        int vertex = -1;
+        int vertice = -1;
         for (int i = 0; i <tamanho ; i++) {
             if(mst[i]==false && minKey>key[i]){
                 minKey = key[i];
-                vertex = i;
+                vertice = i;
             }
         }
-        return vertex;
+        return vertice;
     }
    
-    public void dijkstra_GetMinDistances(int sourceVertex){
+    public void distanciaMinima(int origem , int destino){
         boolean[] spt = new boolean[tamanho];
-        float [] distance = new float[tamanho];
-        float INFINITY = Integer.MAX_VALUE;
+        float [] distancia = new float[tamanho];
+        float INFINITO = Integer.MAX_VALUE;
     
-        //Initialize all the distance to infinity
+        //COLOCA TODAS AS DISTANCIAS COMO "INFINITO" (maior inteiro)
         for (int i = 0; i <tamanho ; i++) {
-            distance[i] = INFINITY;
+            distancia[i] = INFINITO;
         }
     
-        //start from the vertex 0
-        distance[sourceVertex] = 0;
+        //INICIA OS VERTICE DE ORIGEM COMO 0
+        distancia[origem] = 0;
     
-        //create SPT
+        //CRIA SPT
         for (int i = 0; i <tamanho ; i++) {
     
-            //get the vertex with the minimum distance
-            int vertex_U = getMinimumVertex(spt, distance);
+            //PEGA O VERTICE COM A MENOR DISTANCIA
+            int linha = caminhoMinVertice(spt, distancia);
         
-            //include this vertex in SPT
-            spt[vertex_U] = true;
+            //INCLUI ESSE VERTICE NO SPT
+            spt[linha] = true;
         
-            //iterate through all the adjacent tamanho of above vertex and update the keys
-            for (int vertex_V = 0; vertex_V <tamanho ; vertex_V++) {
-                //check of the edge between vertex_U and vertex_V
-                if(matriz[vertex_U][vertex_V]>0){
-                    //check if this vertex 'vertex_V' already in spt and
-                    // if distance[vertex_V]!=Infinity
+            //PERCORRE POR TODOS OS VERTICES E ATUALIZA A KEY
+            for (int coluna = 0; coluna <tamanho ; coluna++) {
+                if(matriz[linha][coluna]>0){
                 
-                    if(spt[vertex_V]==false && matriz[vertex_U][vertex_V]!=INFINITY){
-                        //check if distance needs an update or not
-                        //means check total weight from source to vertex_V is less than
-                        //the current distance value, if yes then update the distance
+                    if(spt[coluna]==false && matriz[linha][coluna]!=INFINITO){
+                        //VERIFICA SE A DISTANCIA PRECISA ATUALIZAR OU NAO, VE SE O A DISTANCIA DA CIDADE DE ORIGEM É MENOR QUE A DISTANCIA ATUAL E SE SIM ATUALIZA
+
                     
-                        float newKey = matriz[vertex_U][vertex_V] + distance[vertex_U];
-                        if(newKey<distance[vertex_V])
-                        distance[vertex_V] = newKey;
+                        float newKey = matriz[linha][coluna] + distancia[linha];
+                        if(newKey<distancia[coluna])
+                        distancia[coluna] = newKey;
                     }
                 }
             }
         }
-        //print shortest path tree
-        printDijkstra(sourceVertex, distance);
+        //PRINTA A MENOR DISTANCIA
+        printDijkstra(origem, distancia,destino);
     }
    
-    public void printDijkstra(int sourceVertex, float [] key){
-        System.out.println("Dijkstra Algorithm: (Adjacency matriz)");
+    public void printDijkstra(int origem, float [] key,int destino){
+        System.out.println("Algoritmo de Dijkstra: ");
         for (int i = 0; i <tamanho ; i++) {
-            System.out.println("Source Vertex: " + sourceVertex + " to vertex " + + i +
-            " distance: " + key[i]);
+            if (i==destino){
+                System.out.println("Origem: " + (origem+1) + " para destino " + + (i+1) +
+                " distancia: " + key[i]);
+            }
         }
     }
 }

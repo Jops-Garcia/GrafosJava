@@ -24,6 +24,7 @@ public class App {
         Scanner aux = new Scanner (System.in);
         int opcao = 0;
         int codigo = 0;
+        int codigoAux = 0;
 
         //MENU
         while (opcao!=5) {            
@@ -87,7 +88,20 @@ public class App {
 
              //Deixando comentarios para uso no futuro
              case 4:
-                test.dijkstra_GetMinDistances(0);
+                clear();
+                test.printNodes();
+                System.out.println(); //Prints para auxiliar o user
+                System.out.print("Digite o nó de origem desejado: ");
+                codigo=aux.nextInt(); 
+                aux.nextLine();//lixo para coletar espaço
+
+                System.out.println(); //Prints para auxiliar o user
+                System.out.print("Digite o nó de destino desejado: ");
+                codigoAux=aux.nextInt(); 
+                aux.nextLine();//lixo para coletar espaço
+                clear();
+
+                test.distanciaMinima(codigo-1,codigoAux-1);
 
 
                 break;
