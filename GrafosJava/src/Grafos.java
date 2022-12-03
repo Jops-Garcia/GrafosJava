@@ -3,6 +3,7 @@
  * @author João Pedro Garcia & Rodrigo Couto Rodrigues
  */
 import java.util.ArrayList;
+import java.util.LinkedList;
 public class Grafos {
     float [][]matriz;
     //Lista de nomes dos nos
@@ -86,8 +87,8 @@ public class Grafos {
 
     //PEGA O VERTICE COM A DISTANCIA MINIMA QUE NAO ESTA INCLUSA NO SPT
     public int caminhoMinVertice(boolean [] mst, float [] key){
-        //pega o maior inteiro possivel (mesmo sendo float o inteiro já é um numero bem grande)
-        float minKey = Integer.MAX_VALUE;
+        //pega o maior float possivel
+        float minKey = Float.MAX_VALUE;
         int vertice = -1;
         for (int i = 0; i <tamanho ; i++) {
             if(mst[i]==false && minKey>key[i]){
@@ -101,8 +102,8 @@ public class Grafos {
     public void distanciaMinima(int origem , int destino){
         boolean[] spt = new boolean[tamanho];
         float [] distancia = new float[tamanho];
-        float INFINITO = Integer.MAX_VALUE;
-        //COLOCA TODAS AS DISTANCIAS COMO "INFINITO" (maior inteiro)
+        float INFINITO = Float.MAX_VALUE;
+        //COLOCA TODAS AS DISTANCIAS COMO "INFINITO" (maior float)
         for (int i = 0; i <tamanho ; i++) {
             distancia[i] = INFINITO;
         }
@@ -217,5 +218,90 @@ public class Grafos {
  
         // printa a MST
         printMST(mst, grafo);
+    }
+    //FORD FULKERSON ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    boolean bfs(float grafo2[][], int predecessor, int destino, int caminho[])
+    {
+        //Cria um array e marca todos os vertices como nao visitado
+        boolean visitado[] = new boolean[tamanho];
+        for (int i = 0; i < tamanho; ++i)
+        {
+            visitado[i] = false;
+        }
+        //cria uma fila, coloca o vertice predecessor e marca como visitado
+
+        LinkedList<Integer> fila = new LinkedList<Integer>();
+        fila.add(predecessor);
+        visitado[predecessor] = true;
+
+        caminho[predecessor] = -1;
+ 
+        // loop para fazer busca em largura
+        while (fila.size() != 0) {
+            int u = fila.poll();
+            for (int v = 0; v < tamanho; v++) {
+                if (visitado[v] == false
+                    && grafo2[u][v] > 0) {
+                    //se achar, retornar true, seta ele no caminho
+                    if (v == destino) {
+                        caminho[v] = u;
+                        return true;
+                    }
+                    fila.add(v);
+                    caminho[v] = u;
+                    visitado[v] = true;
+                }
+            }
+        }
+        //se nao encontrar retorna false
+        return false;
+    }
+ 
+    //funcao para printar o fluxo maximo dado uma origem e destino no grafo
+    void fordFulkerson(float grafo[][], int predecessor, int destino)
+    {
+        int u, v;
+
+        // cria um segundo grafo para armazenar a quantidade que de fluxo que sobra do nas arestas do original
+        //ou seja, o grafo2[i][j] é a capacidade de fluxo que sobrou de i para j 
+
+        float grafo2[][] = new float[tamanho][tamanho];
+ 
+        for (u = 0; u < tamanho; u++)
+            for (v = 0; v < tamanho; v++)
+            {
+                grafo2[u][v] = grafo[u][v];
+            }
+            // essa array vai ser preenchida pelo busca em largura colocando os caminhos
+            int caminho[] = new int[tamanho];
+    
+            float fluxoMaximo = 0; // inicilmente sem fluxo maximo
+    
+
+            while (bfs(grafo2, predecessor, destino, caminho)) {
+
+                //acha as capacidades das arestas junto ocm o caminho completado pela busca em largura, 
+                //ou seja acha o fluxo maximo através dos caminhos encontrados
+                float fluxoCaminho = Float.MAX_VALUE;
+                for (v = destino; v != predecessor; v = caminho[v]) {
+                    u = caminho[v];
+                    fluxoCaminho= Math.min(fluxoCaminho, grafo2[u][v]);
+                }
+    
+                //atualiza o fluxo que sobrou das arestas
+                for (v = destino; v != predecessor; v = caminho[v]) 
+                {
+                    u = caminho[v];
+                    grafo2[u][v] -= fluxoCaminho;
+                    grafo2[v][u] += fluxoCaminho;
+                }
+    
+                //adiciona o fluxo do caminho no fluxo maximo
+                fluxoMaximo += fluxoCaminho;
+        }
+ 
+        // printa o fluxo maximo
+        System.out.println("O Fluxo maximo de "+this.nodes.get(predecessor)+"("+(predecessor+1)+")"+" e "+this.nodes.get(destino)+"("+(destino+1)+")"+" é: " + fluxoMaximo);
     }
 }

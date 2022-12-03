@@ -113,6 +113,18 @@ public class App {
                 
                 case 6:
                     clear();
+                     test.printNodes();
+                    System.out.println(); //Prints para auxiliar o user
+                    System.out.print("Digite o nó de origem desejado: ");
+                    codigo=aux.nextInt(); 
+                    aux.nextLine();//lixo para coletar espaço
+
+                    System.out.println(); //Prints para auxiliar o user
+                    System.out.print("Digite o nó de destino desejado: ");
+                    codigoAux=aux.nextInt(); 
+                    aux.nextLine();//lixo para coletar espaço
+                    clear();
+                    test.fordFulkerson(test.matriz, codigo-1,codigoAux-1);
                     
                 break;
    
