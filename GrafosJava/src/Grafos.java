@@ -43,10 +43,9 @@ public class Grafos {
         System.out.println();
     }
 
-    public void caminhos(int cidade,ArrayList<String> cidades){//A array serve para saber os nós que já foram percorridos
-        // if (cidades.size()<0){
-        //     return;
-        // }
+    public void caminhos(int cidade,ArrayList<String> cidades){
+        //A array serve para saber os nós que já foram percorridos
+        
         //Removendo a atual
         cidades.remove(nodes.get(cidade));
         //Percorrer a linha da matriz
@@ -85,9 +84,9 @@ public class Grafos {
         }
     }
 
-    //PEGA O VERTICE COM A DISTANCIA MINIMA QUE NAO ESTA INCLUSA NO SPT
+    //Pega o vertice com a distância mínima que não está inclusa no SPT
     public int caminhoMinVertice(boolean [] mst, float [] key){
-        //pega o maior float possivel
+        //Pega o maior float possível
         float minKey = Float.MAX_VALUE;
         int vertice = -1;
         for (int i = 0; i <tamanho ; i++) {
@@ -127,7 +126,7 @@ public class Grafos {
                 }
             }
         }
-        //PRINTA A MENOR DISTANCIA
+        //Printa menor distância
         printDijkstra(origem, distancia,destino);
     }
    
@@ -140,14 +139,16 @@ public class Grafos {
             }
         }
     }
+    
 
-    //Prim +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //----------------------------------------------------------------------------------------------------------------------------------------
+    //Algoritmo de Prim 
     
     //Funcao para achar o vertice com a key
-    //MST = Minimum Spanning Tree (ARRVORE GERADORA MINIMA)
+    //MST = Minimum Spanning Tree (ARVORE GERADORA MINIMA)
     int minKey(float key[], Boolean mstSet[])
     {
-        // inicializa com o maior e menor valor possivel
+        // Inicializa com o maior e menor valor possivel
         float min = Float.MAX_VALUE;
         int min_index = -1;
  
@@ -160,7 +161,7 @@ public class Grafos {
         return min_index;
     }
  
-    //Funcao para printar a MST
+    //Função para printar a MST
 
     void printMST(int mst[], float grafo[][])
     {
@@ -182,10 +183,10 @@ public class Grafos {
         //Valores para pegar o peso minimo nas arestas
         float key[] = new float[tamanho];
  
-        //vertices incluidos na MST
+        //Vertices incluidos na MST
         Boolean mstSet[] = new Boolean[tamanho];
  
-        //inicializando todos os valores como infinito
+        //Inicializando todos os valores como infinito
         for (int i = 0; i < tamanho; i++) {
             key[i] = Integer.MAX_VALUE;
             mstSet[i] = false;
@@ -193,14 +194,14 @@ public class Grafos {
  
         //Inclui o primeiro vertice no mst
         key[0] = 0;
-        mst[0] = -1; // primeiro nó inserido e como raiz
+        mst[0] = -1; // Primeiro nó inserido e como raiz
  
         // A arvore geradora minima vai ter o mesmo tamanho que o grafo, entao..
         for (int count = 0; count < tamanho - 1; count++) {
-            //pega o valor minimo do vertice pelo mstSet ainda nao incluido
+            //Pega o valor minimo do vertice pelo mstSet ainda nao incluido
             int u = minKey(key, mstSet);
  
-            //adiciona o vertice selecionado como ja visitado
+            //Adiciona o vertice selecionado como ja visitado
             mstSet[u] = true;
  
 
@@ -209,17 +210,18 @@ public class Grafos {
  
                 // grafo[u][v] nao é zero só para os vertices adjacentes 
                 // mstSet[v] é falso para vertices nao inseridos na MST
-                // só atualiza key se grafo[u][v] é menor que key[v]
+                // Só atualiza key se grafo[u][v] é menor que key[v]
                 if (grafo[u][v] != 0 && mstSet[v] == false && grafo[u][v] < key[v]) {
                     mst[v] = u;
                     key[v] = grafo[u][v];
                 }
         }
  
-        // printa a MST
+        // Printa a MST
         printMST(mst, grafo);
     }
-    //FORD FULKERSON ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //----------------------------------------------------------------------------------------------------------------------------------------
+    //Algoritmo de Ford-Fulkerson 
 
     boolean bfs(float grafo2[][], int predecessor, int destino, int caminho[])
     {
@@ -229,7 +231,7 @@ public class Grafos {
         {
             visitado[i] = false;
         }
-        //cria uma fila, coloca o vertice predecessor e marca como visitado
+        //Cria uma fila, coloca o vertice predecessor e marca como visitado
 
         LinkedList<Integer> fila = new LinkedList<Integer>();
         fila.add(predecessor);
@@ -243,7 +245,7 @@ public class Grafos {
             for (int v = 0; v < tamanho; v++) {
                 if (visitado[v] == false
                     && grafo2[u][v] > 0) {
-                    //se achar, retornar true, seta ele no caminho
+                    //Se encontrar, retornar true, seta ele no caminho
                     if (v == destino) {
                         caminho[v] = u;
                         return true;
@@ -254,17 +256,17 @@ public class Grafos {
                 }
             }
         }
-        //se nao encontrar retorna false
+        //Se não encontrar retorna false
         return false;
     }
  
-    //funcao para printar o fluxo maximo dado uma origem e destino no grafo
+    //Função para printar o fluxo maximo dado uma origem e destino no grafo
     void fordFulkerson(float grafo[][], int predecessor, int destino)
     {
         int u, v;
 
-        // cria um segundo grafo para armazenar a quantidade que de fluxo que sobra do nas arestas do original
-        //ou seja, o grafo2[i][j] é a capacidade de fluxo que sobrou de i para j 
+        // Cria um segundo grafo para armazenar a quantidade que de fluxo que sobra do nas arestas do original
+        //Ou seja, o grafo2[i][j] é a capacidade de fluxo que sobrou de i para j 
 
         float grafo2[][] = new float[tamanho][tamanho];
  
@@ -273,23 +275,23 @@ public class Grafos {
             {
                 grafo2[u][v] = grafo[u][v];
             }
-            // essa array vai ser preenchida pelo busca em largura colocando os caminhos
+            // Essa array vai ser preenchida pelo busca em largura colocando os caminhos
             int caminho[] = new int[tamanho];
     
-            float fluxoMaximo = 0; // inicilmente sem fluxo maximo
+            float fluxoMaximo = 0; // Inicilmente sem fluxo maximo
     
 
             while (bfs(grafo2, predecessor, destino, caminho)) {
 
-                //acha as capacidades das arestas junto ocm o caminho completado pela busca em largura, 
-                //ou seja acha o fluxo maximo através dos caminhos encontrados
+                //Acha as capacidades das arestas junto ocm o caminho completado pela busca em largura, 
+                //Ou seja acha o fluxo maximo através dos caminhos encontrados
                 float fluxoCaminho = Float.MAX_VALUE;
                 for (v = destino; v != predecessor; v = caminho[v]) {
                     u = caminho[v];
                     fluxoCaminho= Math.min(fluxoCaminho, grafo2[u][v]);
                 }
     
-                //atualiza o fluxo que sobrou das arestas
+                //Atualiza o fluxo que sobrou das arestas
                 for (v = destino; v != predecessor; v = caminho[v]) 
                 {
                     u = caminho[v];
@@ -297,11 +299,11 @@ public class Grafos {
                     grafo2[v][u] += fluxoCaminho;
                 }
     
-                //adiciona o fluxo do caminho no fluxo maximo
+                //Adiciona o fluxo do caminho no fluxo maximo
                 fluxoMaximo += fluxoCaminho;
         }
  
-        // printa o fluxo maximo
-        System.out.println("O Fluxo maximo de "+this.nodes.get(predecessor)+"("+(predecessor+1)+")"+" e "+this.nodes.get(destino)+"("+(destino+1)+")"+" é: " + fluxoMaximo);
+        // Printa o fluxo máximo
+        System.out.println("O Fluxo máximo de "+this.nodes.get(predecessor)+"("+(predecessor+1)+")"+" e "+this.nodes.get(destino)+"("+(destino+1)+")"+" é: " + fluxoMaximo);
     }
 }
