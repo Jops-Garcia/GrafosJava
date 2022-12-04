@@ -102,23 +102,24 @@ public class Grafos {
         boolean[] spt = new boolean[tamanho];
         float [] distancia = new float[tamanho];
         float INFINITO = Float.MAX_VALUE;
-        //COLOCA TODAS AS DISTANCIAS COMO "INFINITO" (maior float)
+        //Coloca todas as distâncias como "Infinito" (maior float)
+       
         for (int i = 0; i <tamanho ; i++) {
             distancia[i] = INFINITO;
         }
-        //INICIA OS VERTICE DE ORIGEM COMO 0
+        //Inicia o vertice de origem como 0
         distancia[origem] = 0;
-        //CRIA SPT
+        //Cria SPT
         for (int i = 0; i <tamanho ; i++) {
-            //PEGA O VERTICE COM A MENOR DISTANCIA
+            //Pega o vertice com a menor distância
             int linha = caminhoMinVertice(spt, distancia);
-            //INCLUI ESSE VERTICE NO SPT
+            //Inclui esse vertice no SPT
             spt[linha] = true;
-            //PERCORRE POR TODOS OS VERTICES E ATUALIZA A KEY
+            //Percorre por todos os vertices e atualiza a Key
             for (int coluna = 0; coluna <tamanho ; coluna++) {
                 if(matriz[linha][coluna]>0){            
                     if(spt[coluna]==false && matriz[linha][coluna]!=INFINITO){
-                        //VERIFICA SE A DISTANCIA PRECISA ATUALIZAR OU NAO, VE SE O A DISTANCIA DA CIDADE DE ORIGEM É MENOR QUE A DISTANCIA ATUAL E SE SIM ATUALIZA
+                        //Verifica se a distância precisa atualizar ou não, verifica se a distância da cidade de origem é menor que a distância atual, caso seja true, atualiza
                         float newKey = matriz[linha][coluna] + distancia[linha];
                         if(newKey<distancia[coluna])
                         distancia[coluna] = newKey;
